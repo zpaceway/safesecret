@@ -126,6 +126,7 @@ const App = () => {
                     onClick={() => {
                       setNewSecret(structuredClone(secret));
                       setSelectedSecretIndex(index);
+                      setShowNavBar(false);
                     }}
                     className={`flex w-full cursor-pointer justify-between gap-2 rounded-md p-2 ${
                       selectedSecretIndex === index
