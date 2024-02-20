@@ -2,7 +2,7 @@ import { IoIosSearch } from "react-icons/io";
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { useAtom } from "jotai";
 import { secretsAtom } from "./atoms";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TSecret } from "./types";
 import { FaRegStar } from "react-icons/fa";
 import { FaCopy } from "react-icons/fa";
@@ -21,9 +21,12 @@ import { IoMenu } from "react-icons/io5";
 const App = () => {
   const [secrets, setSecrets] = useAtom(secretsAtom);
   const [newSecret, setNewSecret] = useState<TSecret>();
-  const [selectedSecretIndex, setSelectedSecretIndex] = useState<number>();
+  const [selectedSecretId, setSelectedSecretId] = useState<string>();
   const [searchTerm, setSearchTerm] = useState("");
   const [showNavBar, setShowNavBar] = useState(true);
+  const selectedSecretIndex = useMemo(() => {
+    return (secrets || []).findIndex((s) => s.id === selectedSecretId);
+  }, [secrets, selectedSecretId]);
 
   useEffect(() => {
     const secrestsCompressedBase64 = window.location.hash.substring(1);
@@ -48,8 +51,6 @@ const App = () => {
   }, [secrets]);
 
   if (!secrets) return <></>;
-
-  console.log(showNavBar);
 
   return (
     <div className="fixed inset-0 flex flex-col gap-1 bg-zinc-950">
@@ -87,6 +88,7 @@ const App = () => {
             <button
               onClick={() => {
                 setNewSecret({
+                  id: crypto.randomUUID(),
                   app: "",
                   name: "",
                   color: "#ffffff",
@@ -94,11 +96,22 @@ const App = () => {
                   description: "",
                   group: "general",
                   fields: [
-                    { name: "username", type: "text", value: "" },
-                    { name: "password", type: "password", value: "" },
+                    {
+                      id: crypto.randomUUID(),
+                      name: "username",
+                      type: "text",
+                      value: "",
+                    },
+                    {
+                      id: crypto.randomUUID(),
+                      name: "password",
+                      type: "password",
+                      value: "",
+                    },
                   ],
                 });
-                setSelectedSecretIndex(undefined);
+                setShowNavBar(false);
+                setSelectedSecretId(undefined);
               }}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-500 text-white transition-all hover:bg-blue-400"
             >
@@ -120,16 +133,16 @@ const App = () => {
                       ),
                 )
                 .sort((s1, s2) => (s2.starred ? 1 : 0) - (s1.starred ? 1 : 0))
-                .map((secret, index) => (
+                .map((secret) => (
                   <div
-                    key={`secret-${index}`}
+                    key={`secret-${secret.id}`}
                     onClick={() => {
                       setNewSecret(structuredClone(secret));
-                      setSelectedSecretIndex(index);
+                      setSelectedSecretId(secret.id);
                       setShowNavBar(false);
                     }}
                     className={`flex w-full cursor-pointer justify-between gap-2 rounded-md p-2 ${
-                      selectedSecretIndex === index
+                      selectedSecretId === secret.id
                         ? "bg-zinc-600 bg-opacity-30"
                         : "bg-transparent transition-all hover:bg-zinc-600 hover:bg-opacity-30"
                     }`}
@@ -165,14 +178,14 @@ const App = () => {
                 <div className="flex gap-2 text-sm">
                   <button
                     onClick={() => {
-                      if (selectedSecretIndex !== undefined) {
+                      if (selectedSecretId !== undefined) {
                         secrets[selectedSecretIndex] = newSecret;
                         setSecrets([...secrets]);
                       } else {
                         setSecrets([...secrets, newSecret]);
                       }
                       setNewSecret(undefined);
-                      setSelectedSecretIndex(undefined);
+                      setSelectedSecretId(undefined);
                     }}
                     className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs transition-all hover:bg-zinc-700 hover:bg-opacity-100"
                   >
@@ -182,7 +195,7 @@ const App = () => {
                   <button
                     onClick={() => {
                       setNewSecret(undefined);
-                      setSelectedSecretIndex(undefined);
+                      setSelectedSecretId(undefined);
                     }}
                     className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs transition-all hover:bg-zinc-700 hover:bg-opacity-100"
                   >
@@ -190,15 +203,15 @@ const App = () => {
                     <div>Cancel</div>
                   </button>
                 </div>
-                {selectedSecretIndex !== undefined && (
+                {selectedSecretId !== undefined && (
                   <div>
                     <button
                       onClick={() => {
                         setNewSecret(undefined);
-                        setSelectedSecretIndex(undefined);
+                        setSelectedSecretId(undefined);
                         const newSecrets = [
                           ...secrets.slice(0, selectedSecretIndex),
-                          ...secrets.slice(selectedSecretIndex + 1),
+                          ...secrets.slice(selectedSecretIndex),
                         ];
                         setSecrets(newSecrets);
                       }}
@@ -282,6 +295,7 @@ const App = () => {
                   <button
                     onClick={() => {
                       newSecret.fields.push({
+                        id: crypto.randomUUID(),
                         name: "",
                         type: "",
                         value: "",
@@ -297,97 +311,108 @@ const App = () => {
                   </button>
                 </div>
                 <div className="flex h-full flex-col gap-2 overflow-auto">
-                  {newSecret.fields.map((field, index) => (
-                    <div key={`field-${index}`}>
-                      <div className="flex w-full flex-col items-center justify-between overflow-hidden rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30">
-                        <div className="flex w-full flex-col rounded-md p-2">
-                          <input
-                            value={field.name}
-                            onChange={(e) => {
-                              newSecret.fields[index].name = e.target.value;
-                              setNewSecret({
-                                ...newSecret,
-                              });
-                            }}
-                            type="text"
-                            className="bg-transparent text-xs font-medium text-slate-200 outline-none"
-                            placeholder={"field name..."}
-                          />
-                          <input
-                            value={field.value}
-                            onChange={(e) => {
-                              newSecret.fields[index].value = e.target.value;
-                              setNewSecret({
-                                ...newSecret,
-                              });
-                            }}
-                            type={field.type}
-                            className="bg-transparent text-base font-medium text-slate-200 outline-none"
-                            placeholder={`${field.name || "field value"}...`}
-                          />
-                        </div>
-                        <div className="flex w-full items-center justify-between gap-2 bg-zinc-800 p-2 text-xs">
-                          <div className="flex items-center gap-2">
-                            <button
-                              title="Copy"
-                              onClick={() => {
-                                navigator.clipboard.writeText(field.value);
-                              }}
-                            >
-                              <FaCopy />
-                            </button>
-                            <button
-                              title="Duplicate"
-                              onClick={() => {
-                                newSecret.fields = [...newSecret.fields, field];
-                                setNewSecret({ ...newSecret });
-                              }}
-                            >
-                              <IoDuplicate />
-                            </button>
-                            <button
-                              title="Delete"
-                              onClick={() => {
-                                newSecret.fields = [
-                                  ...newSecret.fields.slice(0, index),
-                                  ...newSecret.fields.slice(index + 1),
-                                ];
+                  {newSecret.fields.map((field) => {
+                    const fieldIndex = newSecret.fields.findIndex(
+                      (f) => f.id === field.id,
+                    );
+                    return (
+                      <div key={`field-${field.id}`}>
+                        <div className="flex w-full flex-col items-center justify-between overflow-hidden rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30">
+                          <div className="flex w-full flex-col rounded-md p-2">
+                            <input
+                              value={field.name}
+                              onChange={(e) => {
+                                newSecret.fields[fieldIndex].name =
+                                  e.target.value;
                                 setNewSecret({
                                   ...newSecret,
                                 });
                               }}
-                            >
-                              <FaTrash />
-                            </button>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <select
-                              title="Type"
-                              value={newSecret.fields[index].type}
-                              className="bg-transparent"
+                              type="text"
+                              className="bg-transparent text-xs font-medium text-slate-200 outline-none"
+                              placeholder={"field name..."}
+                            />
+                            <input
+                              value={field.value}
                               onChange={(e) => {
-                                newSecret.fields[index].type = e.target.value;
-                                setNewSecret({ ...newSecret });
+                                newSecret.fields[fieldIndex].value =
+                                  e.target.value;
+                                setNewSecret({
+                                  ...newSecret,
+                                });
                               }}
-                            >
-                              <option
-                                value="text"
-                                className="text bg-zinc-800 text-white"
+                              type={field.type}
+                              className="bg-transparent text-base font-medium text-slate-200 outline-none"
+                              placeholder={`${field.name || "field value"}...`}
+                            />
+                          </div>
+                          <div className="flex w-full items-center justify-between gap-2 bg-zinc-800 p-2 text-xs">
+                            <div className="flex items-center gap-2">
+                              <button
+                                title="Copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(field.value);
+                                }}
                               >
-                                Text
-                              </option>
-                              <option
-                                value="password"
-                                className="text bg-zinc-800 text-white"
+                                <FaCopy />
+                              </button>
+                              <button
+                                title="Duplicate"
+                                onClick={() => {
+                                  newSecret.fields = [
+                                    ...newSecret.fields,
+                                    field,
+                                  ];
+                                  setNewSecret({ ...newSecret });
+                                }}
                               >
-                                Password
-                              </option>
-                            </select>
+                                <IoDuplicate />
+                              </button>
+                              <button
+                                title="Delete"
+                                onClick={() => {
+                                  newSecret.fields = [
+                                    ...newSecret.fields.slice(0, fieldIndex),
+                                    ...newSecret.fields.slice(fieldIndex + 1),
+                                  ];
+                                  setNewSecret({
+                                    ...newSecret,
+                                  });
+                                }}
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <select
+                                title="Type"
+                                value={newSecret.fields[fieldIndex].type}
+                                className="bg-transparent"
+                                onChange={(e) => {
+                                  newSecret.fields[fieldIndex].type =
+                                    e.target.value;
+                                  setNewSecret({ ...newSecret });
+                                }}
+                              >
+                                <option
+                                  value="text"
+                                  className="text bg-zinc-800 text-white"
+                                >
+                                  Text
+                                </option>
+                                <option
+                                  value="password"
+                                  className="text bg-zinc-800 text-white"
+                                >
+                                  Password
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
