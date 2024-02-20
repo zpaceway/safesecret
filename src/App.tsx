@@ -53,24 +53,24 @@ const App = () => {
   if (!secrets) return <></>;
 
   return (
-    <div className="fixed inset-0 flex flex-col gap-1 bg-zinc-950">
+    <div className="fixed inset-0 flex flex-col-reverse gap-1 bg-zinc-950">
       <button
         onClick={() => {
           setShowNavBar((state) => !state);
         }}
-        className="flex items-center border-b-2 border-b-zinc-700 bg-zinc-800 px-4 py-2 text-xl text-white lg:hidden"
+        className="flex items-center border-t-2 border-t-zinc-700 bg-zinc-800 px-4 py-2 text-xl text-white lg:hidden"
       >
         <IoMenu />
       </button>
       <div
-        className={`relative flex h-full gap-2 border-t-2 border-t-zinc-700 lg:border-none`}
+        className={`lg:border-b-none relative flex h-full gap-1 border-b-2 border-b-zinc-700`}
       >
         <div
-          className={`absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm transition-all lg:pointer-events-none lg:opacity-0 ${!showNavBar ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"}`}
+          className={`absolute inset-0 bg-black bg-opacity-30 backdrop-blur-md transition-all lg:pointer-events-none lg:opacity-0 ${!showNavBar ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"}`}
           onClick={() => setShowNavBar(false)}
         ></div>
         <div
-          className={`absolute inset-0 z-50 flex h-full w-full flex-col border-r-0 border-r-zinc-700 bg-zinc-800 transition-all sm:max-w-xs lg:static lg:border-r-2 ${!showNavBar && "-translate-x-full lg:translate-x-0"}`}
+          className={`absolute inset-0 z-50 flex h-full w-full flex-col border-r-0 border-r-zinc-700 bg-zinc-800 bg-opacity-80 transition-all sm:max-w-xs lg:static lg:border-r-2 lg:bg-opacity-100 ${!showNavBar && "-translate-x-full lg:translate-x-0"}`}
         >
           <div className="flex gap-2 p-4">
             <div className="relative w-full overflow-hidden rounded-md text-sm text-white">
@@ -225,7 +225,7 @@ const App = () => {
               </div>
               <div className="flex w-full items-center justify-between gap-4">
                 <div className="flex items-center gap-2 overflow-hidden">
-                  <div className="relative shrink-0">
+                  <div className="shrink-0">
                     <div
                       className="h-16 w-16 rounded-md"
                       style={{
