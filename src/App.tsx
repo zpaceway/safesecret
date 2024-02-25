@@ -1,5 +1,5 @@
 import { IoIosSearch } from "react-icons/io";
-import { FaPlus } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaPlus } from "react-icons/fa";
 import { useAtom } from "jotai";
 import { secretsAtom } from "./atoms";
 import { useEffect, useMemo, useState } from "react";
@@ -24,6 +24,7 @@ const App = () => {
   const [selectedSecretId, setSelectedSecretId] = useState<string>();
   const [searchTerm, setSearchTerm] = useState("");
   const [showNavBar, setShowNavBar] = useState(true);
+  const [showPasswordValue, setShowPasswordValue] = useState(false);
   const selectedSecretIndex = useMemo(() => {
     return (secrets || []).findIndex((s) => s.id === selectedSecretId);
   }, [secrets, selectedSecretId]);
@@ -107,14 +108,24 @@ const App = () => {
           <div className="z-50 flex w-full max-w-xs flex-col gap-2 rounded-md bg-zinc-900 p-4">
             <div className="relative w-full overflow-hidden rounded-md text-sm text-white">
               <input
-                type="password"
-                className="h-8 w-full bg-zinc-700 p-2 pl-8 outline-none"
+                type={showPasswordValue ? "text" : "password"}
+                className="h-8 w-full bg-zinc-700 px-8 py-2 outline-none"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="pointer-events-none absolute inset-0 left-2 flex items-center">
+              <div className="pointer-events-none absolute inset-0 left-2 flex items-center justify-start">
                 <FaLock />
+              </div>
+              <div className="pointer-events-none absolute inset-0 right-2 flex items-center justify-end">
+                <button
+                  className="pointer-events-auto"
+                  onClick={() => {
+                    setShowPasswordValue((state) => !state);
+                  }}
+                >
+                  {showPasswordValue ? <FaEyeSlash /> : <FaEye />}
+                </button>
               </div>
             </div>
             <div className="flex text-white">
@@ -123,7 +134,7 @@ const App = () => {
                   if (!password) return;
                   setShowPasswordModal(false);
                 }}
-                className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs transition-all hover:bg-zinc-700 hover:bg-opacity-100"
+                className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm transition-all hover:bg-zinc-700 hover:bg-opacity-100"
               >
                 Save
               </button>
@@ -248,8 +259,9 @@ const App = () => {
                   ))}
               </div>
             </div>
-            <div className="flex shrink-0 gap-4 p-4 text-white">
+            <div className="flex shrink-0 text-white">
               <button
+                className="bg-zinc-700 bg-opacity-100 p-4 hover:bg-opacity-40"
                 onClick={() => {
                   setShowPasswordModal(true);
                 }}
@@ -257,6 +269,7 @@ const App = () => {
                 <FaLock />
               </button>
               <button
+                className="bg-zinc-700 bg-opacity-60 p-4 hover:bg-opacity-40"
                 onClick={() => {
                   navigator.clipboard.writeText(
                     `${window.location.href}${

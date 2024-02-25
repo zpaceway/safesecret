@@ -54,7 +54,7 @@ const SecretForm = ({
               setNewSecret(undefined);
               setSelectedSecretId(undefined);
             }}
-            className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs transition-all hover:bg-zinc-700 hover:bg-opacity-100"
+            className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm transition-all hover:bg-zinc-700 hover:bg-opacity-100"
           >
             <FaSave />
             <div>Save</div>
@@ -64,7 +64,7 @@ const SecretForm = ({
               setNewSecret(undefined);
               setSelectedSecretId(undefined);
             }}
-            className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs transition-all hover:bg-zinc-700 hover:bg-opacity-100"
+            className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm transition-all hover:bg-zinc-700 hover:bg-opacity-100"
           >
             <MdBlock />
             <div>Cancel</div>
@@ -82,7 +82,7 @@ const SecretForm = ({
                 ];
                 setSecrets(newSecrets);
               }}
-              className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-xs"
+              className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm"
             >
               <FaTrash />
               <div>Delete</div>
@@ -170,10 +170,10 @@ const SecretForm = ({
                 ...newSecret,
               });
             }}
-            className="flex gap-2 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 p-2 transition-all hover:bg-zinc-700 hover:bg-opacity-100"
+            className="flex items-center gap-2 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 transition-all hover:bg-zinc-700 hover:bg-opacity-100"
           >
             <FaPlus />
-            <div className="text-xs">Add new field</div>
+            <div className="text-sm">Add new field</div>
           </button>
         </div>
         <div className="flex h-full flex-col gap-2 overflow-auto">
