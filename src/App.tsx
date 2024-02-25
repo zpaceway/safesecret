@@ -117,9 +117,9 @@ const App = () => {
               <div className="pointer-events-none absolute inset-0 left-2 flex items-center justify-start">
                 <FaLock />
               </div>
-              <div className="pointer-events-none absolute inset-0 right-2 flex items-center justify-end">
+              <div className="pointer-events-none absolute inset-0 right-0 flex items-center justify-end">
                 <button
-                  className="pointer-events-auto"
+                  className="pointer-events-auto flex aspect-square h-full items-center justify-center"
                   onClick={() => {
                     setShowPasswordValue((state) => !state);
                   }}
