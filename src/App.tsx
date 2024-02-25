@@ -109,7 +109,7 @@ const App = () => {
             <div className="relative w-full overflow-hidden rounded-md text-sm text-white">
               <input
                 type={showPasswordValue ? "text" : "password"}
-                className="h-8 w-full bg-zinc-700 px-8 py-2 outline-none"
+                className="w-full bg-zinc-700 px-8 py-2 outline-none"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
