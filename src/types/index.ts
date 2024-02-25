@@ -13,3 +13,8 @@ export type TSecret = {
     value: string;
   }[];
 };
+
+export type TProfile = {
+  id: string;
+  name: string;
+};
