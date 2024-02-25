@@ -165,7 +165,7 @@ const App = () => {
               <div className="relative w-full overflow-hidden rounded-md text-sm text-white">
                 <input
                   type="text"
-                  className="h-8 w-full bg-zinc-700 p-2 pl-8 outline-none"
+                  className="w-full bg-zinc-700 p-2 pl-8 outline-none"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -174,38 +174,6 @@ const App = () => {
                   <IoIosSearch />
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  setNewSecret({
-                    id: crypto.randomUUID(),
-                    app: "",
-                    name: "",
-                    color: "#ffffff",
-                    starred: false,
-                    description: "",
-                    group: "general",
-                    fields: [
-                      {
-                        id: crypto.randomUUID(),
-                        name: "username",
-                        type: "text",
-                        value: "",
-                      },
-                      {
-                        id: crypto.randomUUID(),
-                        name: "password",
-                        type: "password",
-                        value: "",
-                      },
-                    ],
-                  });
-                  setShowNavBar(false);
-                  setSelectedSecretId(undefined);
-                }}
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-blue-500 text-white transition-all hover:bg-blue-400"
-              >
-                <FaPlus />
-              </button>
             </div>
             <div className="my-4 flex h-full w-full overflow-hidden">
               <div className="flex w-full flex-col gap-2 overflow-auto px-4 text-white">
@@ -260,6 +228,38 @@ const App = () => {
               </div>
             </div>
             <div className="flex shrink-0 border-t border-t-zinc-700 text-white">
+              <button
+                onClick={() => {
+                  setNewSecret({
+                    id: crypto.randomUUID(),
+                    app: "",
+                    name: "",
+                    color: "#ffffff",
+                    starred: false,
+                    description: "",
+                    group: "general",
+                    fields: [
+                      {
+                        id: crypto.randomUUID(),
+                        name: "username",
+                        type: "text",
+                        value: "",
+                      },
+                      {
+                        id: crypto.randomUUID(),
+                        name: "password",
+                        type: "password",
+                        value: "",
+                      },
+                    ],
+                  });
+                  setShowNavBar(false);
+                  setSelectedSecretId(undefined);
+                }}
+                className="bg-blue-500 bg-opacity-70 p-4 hover:bg-opacity-100"
+              >
+                <FaPlus />
+              </button>
               <button
                 className="bg-zinc-700 bg-opacity-40 p-4 hover:bg-opacity-70"
                 onClick={() => {
