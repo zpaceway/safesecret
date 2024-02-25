@@ -82,7 +82,7 @@ const SecretForm = ({
                 ];
                 setSecrets(newSecrets);
               }}
-              className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm"
+              className="flex items-center gap-1 rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30 px-2 py-1 text-sm transition-all hover:bg-zinc-700 hover:bg-opacity-100"
             >
               <FaTrash />
               <div>Delete</div>

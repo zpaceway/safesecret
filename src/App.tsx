@@ -259,9 +259,9 @@ const App = () => {
                   ))}
               </div>
             </div>
-            <div className="flex shrink-0 text-white">
+            <div className="flex shrink-0 border-t border-t-zinc-700 text-white">
               <button
-                className="bg-zinc-700 bg-opacity-100 p-4 hover:bg-opacity-40"
+                className="bg-zinc-700 bg-opacity-40 p-4 hover:bg-opacity-70"
                 onClick={() => {
                   setShowPasswordModal(true);
                 }}
@@ -269,7 +269,7 @@ const App = () => {
                 <FaLock />
               </button>
               <button
-                className="bg-zinc-700 bg-opacity-60 p-4 hover:bg-opacity-40"
+                className="bg-zinc-700 bg-opacity-20 p-4 hover:bg-opacity-70"
                 onClick={() => {
                   navigator.clipboard.writeText(
                     `${window.location.href}${
