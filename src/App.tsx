@@ -147,7 +147,7 @@ const App = () => {
           onClick={() => {
             setShowNavBar((state) => !state);
           }}
-          className="flex items-center border-t-2 border-t-zinc-700 bg-zinc-800 px-4 py-2 text-xl text-white lg:hidden"
+          className="flex items-center border-t-2 border-t-zinc-700 bg-zinc-800 p-4 text-xl text-white lg:hidden"
         >
           <IoMenu />
         </button>
