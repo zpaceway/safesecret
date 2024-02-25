@@ -293,7 +293,7 @@ const App = () => {
                   setSecrets={setSecrets}
                 />
               ) : (
-                <div className="max-w-xs text-center text-lg text-white">
+                <div className="flex h-full max-w-xs items-center justify-center text-center text-lg text-white">
                   Select a secret or let's start by creating a new one...
                 </div>
               )}
