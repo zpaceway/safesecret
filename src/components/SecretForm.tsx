@@ -156,7 +156,7 @@ const SecretForm = ({
           className="w-full border-b border-zinc-800 bg-transparent pb-2 text-sm outline-none"
         />
       </div>
-      <div className="flex flex-col gap-2 overflow-y-auto">
+      <div className="flex flex-col gap-2">
         <div className="">
           <button
             onClick={() => {
@@ -183,7 +183,7 @@ const SecretForm = ({
             );
             return (
               <div key={`field-${field.id}`}>
-                <div className="flex w-full flex-col items-center justify-between overflow-hidden rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30">
+                <div className="flex w-full flex-col items-center justify-between rounded-md border border-zinc-800 bg-zinc-800 bg-opacity-30">
                   <div className="flex w-full flex-col rounded-md p-2">
                     <input
                       value={field.name}

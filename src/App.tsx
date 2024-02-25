@@ -142,7 +142,7 @@ const App = () => {
           </div>
         </div>
       )}
-      <div className="fixed inset-0 flex flex-col-reverse gap-1 bg-zinc-950">
+      <div className="fixed inset-0 flex flex-col-reverse gap-1 overflow-hidden bg-zinc-950">
         <button
           onClick={() => {
             setShowNavBar((state) => !state);
@@ -151,15 +151,13 @@ const App = () => {
         >
           <IoMenu />
         </button>
-        <div
-          className={`relative flex h-full gap-1 border-b-2 border-b-zinc-700 lg:border-b-0`}
-        >
+        <div className="relative flex h-full gap-1 overflow-hidden border-b-2 border-b-zinc-700 lg:border-b-0">
           <div
             className={`absolute inset-0 bg-black bg-opacity-30 backdrop-blur-md transition-all lg:pointer-events-none lg:opacity-0 ${!showNavBar ? "pointer-events-none opacity-0" : "pointer-events-auto opacity-100"}`}
             onClick={() => setShowNavBar(false)}
           ></div>
           <div
-            className={`absolute inset-0 z-50 flex h-full w-full flex-col border-r-0 border-r-zinc-700 bg-zinc-800 bg-opacity-80 transition-all sm:max-w-xs lg:static lg:border-r-2 lg:bg-opacity-100 ${!showNavBar && "-translate-x-full lg:translate-x-0"}`}
+            className={`absolute inset-0 z-50 flex h-full w-full flex-col overflow-hidden border-r-0 border-r-zinc-700 bg-zinc-800 bg-opacity-80 transition-all sm:max-w-xs lg:static lg:border-r-2 lg:bg-opacity-100 ${!showNavBar && "-translate-x-full lg:translate-x-0"}`}
           >
             <div className="flex shrink-0 gap-2 p-4">
               <div className="relative w-full overflow-hidden rounded-md text-sm text-white">
@@ -282,22 +280,24 @@ const App = () => {
               </button>
             </div>
           </div>
-          <div className="flex w-full items-center justify-center overflow-hidden border-l-0 bg-zinc-900 p-4 lg:border-l-2 lg:border-l-zinc-700">
-            {newSecret ? (
-              <SecretForm
-                selectedSecretId={selectedSecretId}
-                secrets={secrets || []}
-                selectedSecretIndex={selectedSecretIndex}
-                newSecret={newSecret}
-                setNewSecret={setNewSecret}
-                setSelectedSecretId={setSelectedSecretId}
-                setSecrets={setSecrets}
-              />
-            ) : (
-              <div className="max-w-xs text-center text-lg text-white">
-                Select a secret or let's start by creating a new one...
-              </div>
-            )}
+          <div className="flex w-full items-center justify-center overflow-hidden border-l-0 bg-zinc-900 py-4 lg:border-l-2 lg:border-l-zinc-700">
+            <div className="flex h-full w-full justify-center overflow-auto px-4">
+              {newSecret ? (
+                <SecretForm
+                  selectedSecretId={selectedSecretId}
+                  secrets={secrets || []}
+                  selectedSecretIndex={selectedSecretIndex}
+                  newSecret={newSecret}
+                  setNewSecret={setNewSecret}
+                  setSelectedSecretId={setSelectedSecretId}
+                  setSecrets={setSecrets}
+                />
+              ) : (
+                <div className="max-w-xs text-center text-lg text-white">
+                  Select a secret or let's start by creating a new one...
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
