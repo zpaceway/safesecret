@@ -78,7 +78,7 @@ const SecretForm = ({
                 setSelectedSecretId(undefined);
                 const newSecrets = [
                   ...secrets.slice(0, selectedSecretIndex),
-                  ...secrets.slice(selectedSecretIndex),
+                  ...secrets.slice(selectedSecretIndex + 1),
                 ];
                 setSecrets(newSecrets);
               }}

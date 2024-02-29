@@ -14,7 +14,6 @@ import SecretForm from "./components/SecretForm";
 import { FaLock } from "react-icons/fa";
 import { FaShare } from "react-icons/fa";
 
-// TODO: Add encryption and decryption, it should be reversable
 // TODO: Add a way to manage secret urls, make it more manageble
 // TODO: Make this a PWA, update manifest.json
 
